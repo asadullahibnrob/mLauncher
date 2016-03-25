@@ -1,0 +1,18 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+    >
+
+
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000"
+        android:listSelector="#FFFFFF"
+        android:columnWidth="80dp"
+        android:numColumns="4"
+        android:stretchMode="columnWidth" />
+</RelativeLayout>

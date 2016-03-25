@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="mlauncher.asad.com.mlauncher"
+
+
+    >
+
+    <application
+        android:allowBackup="true"
+        android:banner="@drawable/banner"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/noAnimTheme"
+        >
+
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTask"
+            android:clearTaskOnLaunch="true"
+            android:stateNotNeeded="true"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.HOME"/>
+
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".WallpaperActivity"
+            android:configChanges="orientation"
+            android:launchMode="singleTask"
+            android:clearTaskOnLaunch="true"
+            android:stateNotNeeded="true"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="mlauncher.asad.com.mlauncher.WALLPAPERACTIVITY" />
+                 <action android:name="android.intent.action.SET_WALLPAPER"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name=".QuickSettings"
+            android:configChanges="orientation"
+            android:launchMode="singleTask"
+            android:clearTaskOnLaunch="true"
+            android:stateNotNeeded="true"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="mlauncher.asad.com.mlauncher.QUICKSETTINGS" />
+
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:name=".ViewImage"
+            android:configChanges="orientation"
+            android:launchMode="singleTask"
+            android:clearTaskOnLaunch="true"
+            android:stateNotNeeded="true"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="mlauncher.asad.com.mlauncher.VIEWIMAGE" />
+
+            </intent-filter>
+        </activity>
+
+
+    </application>
+<uses-permission android:name="android.permission.SET_WALLPAPER"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-feature android:name="android.software.leanback" android:required="false" />
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+
+
+
+</manifest>
