@@ -1,7 +1,6 @@
 package mlauncher.asad.com.mlauncher;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,13 +21,13 @@ import java.util.ArrayList;
 
 
 public class GundamAdapter extends ArrayAdapter<AppInfo> {
-    private ImageView img;
     Context mContext;
     ArrayList<AppInfo> list;
     private LruCache<String, Bitmap> mMemoryCache;
     int cacheSize;
     int mResource;
     LayoutInflater inflater;
+    ViewHolder holder;
 
 
     public GundamAdapter(Context context, int resource, ArrayList<AppInfo> objects, int availableMemory) {
@@ -49,31 +48,33 @@ public class GundamAdapter extends ArrayAdapter<AppInfo> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final AppInfo info = list.get(position);
-
-       // Drawable icon = info.icon;
-
-        if(convertView==null){
-            convertView= LayoutInflater.from(parent.getContext()).inflate(R.layout.row,parent,false);
-            img= (ImageView) convertView.findViewById(R.id.thumb);
+         View v = convertView;
+        if(v==null){
+            holder = new ViewHolder();
+            v = inflater.inflate(mResource,null);
+            holder.name = (TextView)v.findViewById(R.id.title);
+            holder.imageView=(ImageView)v.findViewById(R.id.thumb);
+            holder.imageViewSmall = (ImageView)v.findViewById(R.id.thumbty);
+            v.setTag(holder);
+        }else{
+            holder = (ViewHolder)v.getTag();
+        }
 
             if (info.getHasBanner() == true){
 
-                img.setImageDrawable(info.getIcon());
-            }
-            if (info.getHasBanner() == false){
-                ImageView img2 = (ImageView) convertView.findViewById(R.id.thumbty);
-                TextView title = (TextView) convertView.findViewById(R.id.title);
+                holder.imageView.setImageDrawable(info.getIcon());
+               // new GridViewBitmapAsyncTask(holder.imageView).execute(info.getPackageName());
+            }else
+            {
 
-                new GridViewBitmapAsyncTask(img2).execute(info.getPackageName());
-                 title.setText(info.getTitle()
-                 );
-                // img2.setImageDrawable(icon2);
-                title.setVisibility(View.VISIBLE);
-                img2.setVisibility(View.VISIBLE);
-                img.setVisibility(View.GONE);
+                new GridViewBitmapAsyncTask(holder.imageViewSmall).execute(info.getPackageName());
+                 holder.name.setText(info.getTitle());
+                holder.name.setVisibility(View.VISIBLE);
+               // holder.imageViewSmall.setVisibility(View.VISIBLE);
+                holder.imageView.setVisibility(View.GONE);
             }
-        }
-        return convertView;
+
+        return v;
 }
 
     public void addBitmapToMemoryCache(String key, Bitmap bitmap) {
@@ -106,16 +107,7 @@ public class GundamAdapter extends ArrayAdapter<AppInfo> {
 
     }
 
-    public static Bitmap decodeSampledBitmapFromString(String string, int reqWidth, int reqHeight){
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(string,options);
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeFile(string, options);
 
-
-    }
 
 
 
@@ -153,12 +145,10 @@ public class GundamAdapter extends ArrayAdapter<AppInfo> {
     }
 
  static class ViewHolder{
-     CharSequence title;
-     Intent intent;
-     Drawable icon;
-     boolean hasBanner;
-     String packageName;
-     boolean isCustomIcon;
+     TextView name;
+     ImageView imageView;
+     ImageView imageViewSmall;
+
  }
 
 }

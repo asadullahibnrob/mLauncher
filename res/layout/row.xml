@@ -3,15 +3,14 @@
               android:id="@+id/linearlayout"
               android:orientation="horizontal"
               android:layout_width="165dp"
-              android:layout_height="89dp"
-              android:gravity="center_horizontal|center_vertical"
-              android:background="@drawable/selector2"
+              android:layout_height="96dp"
+
 
     >
     <ImageView
         android:id="@+id/thumb"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:scaleType="fitXY"
         />
 
@@ -21,21 +20,20 @@
         android:layout_width="82dp"
         android:layout_height="82dp"
         android:scaleType="centerCrop"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_marginLeft="2dp"
 
         />
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="2dp"
         android:text="asdasd"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
-        android:visibility="gone"
         />
 
 

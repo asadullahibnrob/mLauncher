@@ -6,7 +6,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
@@ -15,8 +14,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,7 +38,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-        cacheSize = maxMemory / 5;
+        cacheSize = maxMemory / 3;
         mContext = getBaseContext();
         registerMyReceiver();
         loadApplications(true);
@@ -55,7 +52,6 @@ public class MainActivity extends Activity {
 
         mGridView = (GridView)findViewById(R.id.gridview);
         mGridView.setAdapter(new GundamAdapter(MainActivity.this, R.layout.row, mApplications, cacheSize));
-       // mGridView.setAdapter(new GridAdapter(MainActivity.this, this, mApplications,cacheSize));
         mGridView.setSelection(0);
         mGridView.setOnItemClickListener(new ApplicationLauncher());
 
@@ -77,37 +73,6 @@ public class MainActivity extends Activity {
         registerReceiver(applicationsInstalledReceiver, filter);
 
            }
-
-    public static List<ApplicationInfo> getInstalledApplication(Context context) {
-
-        PackageManager packageManager = context.getPackageManager();
-        List<ApplicationInfo> apps = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
-        ArrayList<ApplicationInfo> appInfoList = new ArrayList();
-
-
-        for (ApplicationInfo info : apps) {
-
-            if ((packageManager.getLeanbackLaunchIntentForPackage(info.packageName)) != null ) {
-                appInfoList.add(info);}
-
-            if (appInfoList.contains(info)== false && (packageManager.getLaunchIntentForPackage(info.packageName)) != null) {
-                appInfoList.add(info);
-            }
-            if((info.packageName).contains("mlauncher.asad.com.mlauncher")){
-                appInfoList.remove(info);
-            }
-
-
-            if((info.loadLabel(packageManager)).toString().contains("Google Play Games")){
-                appInfoList.remove(info);
-            }
-
-        }
-
-        Collections.sort(appInfoList, new ApplicationInfo.DisplayNameComparator(packageManager));
-        return appInfoList;
-    }
-
 
 
     //http://forum.xda-developers.com/showpost.php?p=59832260&postcount=8 for the keycodes
@@ -203,17 +168,18 @@ public class MainActivity extends Activity {
            // for (ApplicationInfo packageInfo : apps) {
                 for (ResolveInfo packageInfo : rApps) {
                 AppInfo application = new AppInfo();
-
+                    application.setActivityInfo(packageInfo.activityInfo);
                 application.setTitle(packageInfo.loadLabel(manager));
                // application.packageName = packageInfo.packageName;
                     application.setPackageName(packageInfo.activityInfo.packageName)  ;
-                if (application.getIcon() == null) {
+
+                if (application.getIcon() == null && packageInfo.activityInfo.loadBanner(manager) != null) {
                     application.setHasBanner(true);
                    // application.icon = packageInfo.loadBanner(manager);
                     application.setIcon(packageInfo.activityInfo.loadBanner(manager));
                 }
 
-                if (application.getIcon() == null) {
+                if (application.getIcon() == null && packageInfo.activityInfo.loadLogo(manager) !=null) {
                     application.setHasBanner(true);
                    // application.icon = packageInfo.loadLogo(manager);
                     application.setIcon(packageInfo.activityInfo.loadLogo(manager));
@@ -249,6 +215,7 @@ public class MainActivity extends Activity {
 
             mApplications.clear();
             loadApplications(false);
+
 
         }
     }
