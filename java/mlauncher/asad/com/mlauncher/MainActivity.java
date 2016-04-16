@@ -13,7 +13,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,10 +23,10 @@ public class MainActivity extends Activity {
     ArrayList<AppInfo> mApplications;
     private final BroadcastReceiver applicationsInstalledReceiver = new ApplicationsInstalledReceiver();
     Intent quickSettingsIntent = new Intent();
-    GridView mGridView;
-    Boolean upOrDownPressed;
+    BadAssGridView mGridView;
     Context mContext;
     int cacheSize;
+    GundamAdapter adapter;
 
     @Override
     public void onBackPressed() {
@@ -38,21 +38,22 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-        cacheSize = maxMemory / 3;
+        cacheSize = maxMemory / 9;
         mContext = getBaseContext();
         registerMyReceiver();
         loadApplications(true);
-        gridStuff();
+        initialize();
 
 
 
     }
 
-    private void gridStuff() {
-
-        mGridView = (GridView)findViewById(R.id.gridview);
-        mGridView.setAdapter(new GundamAdapter(MainActivity.this, R.layout.row, mApplications, cacheSize));
+    private void initialize() {
+        mGridView = (BadAssGridView)findViewById(R.id.gridview);
+        adapter = new GundamAdapter(MainActivity.this, R.layout.row, mApplications, cacheSize);
+        mGridView.setAdapter(adapter);
         mGridView.setSelection(0);
+         mGridView.setSoundEffectsEnabled(false);
         mGridView.setOnItemClickListener(new ApplicationLauncher());
 
     }
@@ -66,6 +67,7 @@ public class MainActivity extends Activity {
 
     private void registerMyReceiver() {
         IntentFilter filter = new IntentFilter(Intent.ACTION_PACKAGE_ADDED);
+
         filter.addAction(Intent.ACTION_PACKAGE_REMOVED);
         filter.addAction(Intent.ACTION_EXTERNAL_APPLICATIONS_AVAILABLE);
         filter.setPriority(999);
@@ -107,14 +109,7 @@ public class MainActivity extends Activity {
                         e.printStackTrace();}
 
                     return true;
-                case KeyEvent.KEYCODE_DPAD_DOWN:
-                    upOrDownPressed = true;
-                    Log.d("dpad dap", "dpad");
 
-                    break;
-                case KeyEvent.KEYCODE_DPAD_UP:
-                    upOrDownPressed = false;
-                    break;
 
             }
         }
@@ -173,23 +168,25 @@ public class MainActivity extends Activity {
                // application.packageName = packageInfo.packageName;
                     application.setPackageName(packageInfo.activityInfo.packageName)  ;
 
-                if (application.getIcon() == null && packageInfo.activityInfo.loadBanner(manager) != null) {
+                if (application.getIcon() == null && packageInfo.activityInfo.getBannerResource() != 0) {
                     application.setHasBanner(true);
-                   // application.icon = packageInfo.loadBanner(manager);
+                   // application.icon = packageInfo.loadBanner(manager)
+                      application.setiCONrESOURCE(packageInfo.activityInfo.getBannerResource());
                     application.setIcon(packageInfo.activityInfo.loadBanner(manager));
                 }
 
-                if (application.getIcon() == null && packageInfo.activityInfo.loadLogo(manager) !=null) {
+                if (application.getIcon() == null && packageInfo.activityInfo.getLogoResource() !=0) {
                     application.setHasBanner(true);
                    // application.icon = packageInfo.loadLogo(manager);
+                    application.setiCONrESOURCE(packageInfo.activityInfo.getLogoResource());
                     application.setIcon(packageInfo.activityInfo.loadLogo(manager));
                 }
 
 
                 if (application.getIcon()== null) {
                     application.setHasBanner(false);
-                   // application.icon = packageInfo.activityInfo.loadIcon(manager);
-
+                    application.setIcon(packageInfo.activityInfo.loadIcon(manager));
+                    application.setiCONrESOURCE(packageInfo.activityInfo.getIconResource());
 
                 }
 
@@ -213,10 +210,8 @@ public class MainActivity extends Activity {
           
             Log.d("apps have ", "hello");
 
-            mApplications.clear();
             loadApplications(false);
-
-
+            initialize();
         }
     }
 
@@ -235,7 +230,8 @@ public class MainActivity extends Activity {
         }
     }
 
-    }
+
+}
 
 
 

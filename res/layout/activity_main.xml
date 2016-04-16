@@ -9,30 +9,30 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:textSize="45dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginRight="50dp"
         android:layout_marginBottom="40dp"
         android:format12Hour="h:mm"
         android:gravity="right"
         />
 
-    <GridView
+    <mlauncher.asad.com.mlauncher.BadAssGridView
         android:id="@+id/gridview"
-        android:persistentDrawingCache="animation|scrolling"
-        android:alwaysDrawnWithCache="true"
+
         android:drawSelectorOnTop="false"
+        android:fastScrollEnabled="true"
         android:gravity="center_horizontal"
         android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="5"
-        android:verticalSpacing="5dp"
+
+
         android:horizontalSpacing="5dp"
         android:layout_above="@+id/lll"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="38dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="40dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
        >
-    </GridView>
+    </mlauncher.asad.com.mlauncher.BadAssGridView>
 
 </RelativeLayout>

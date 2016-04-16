@@ -41,6 +41,8 @@ public class QuickSettings extends Activity implements  AdapterView.OnItemClickL
         linearLayout.addView(quickSettings);
         quickSettings.setAdapter(new ArrayAdapter<String>(QuickSettings.this, R.layout.listitem, shortCuts));
         quickSettings.setOnItemClickListener(this);
+        getPermissions();
+
     }
 
     @Override
@@ -48,6 +50,7 @@ public class QuickSettings extends Activity implements  AdapterView.OnItemClickL
         switch (position) {
             case 0:
                 //reboot
+                clearCache();
                 try {
                     Process proc = Runtime.getRuntime()
                             .exec(new String[]{"su", "-c", "reboot "});
@@ -57,7 +60,7 @@ public class QuickSettings extends Activity implements  AdapterView.OnItemClickL
                 }
                 break;
             case 1:
-
+                      clearCache();
                 try {
                     Process proc = Runtime.getRuntime()
                             .exec(new String[]{"su", "-c", "reboot recovery"});
@@ -99,6 +102,7 @@ public class QuickSettings extends Activity implements  AdapterView.OnItemClickL
                 break;
             case 6:
                 //poweroff
+                clearCache();
                 try {
                     Process proc = Runtime.getRuntime().exec(new String[]{"su", "-c", "reboot -p"});
                     proc.waitFor();
@@ -161,6 +165,28 @@ public class QuickSettings extends Activity implements  AdapterView.OnItemClickL
         }
         return true;
     }*/
+
+    private void getPermissions(){
+        try {
+            Process proc = Runtime.getRuntime()
+                    .exec(new String[]{"su", "-c", "mount -o rw,remount /"});
+
+            proc.waitFor();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    };
+
+    private void clearCache(){
+        try {
+            Process proc = Runtime.getRuntime()
+                    .exec(new String[]{ "rm -rf /cache"});
+
+            proc.waitFor();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    };
 }
 
 

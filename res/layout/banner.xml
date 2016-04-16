@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mlauncher.asad.com.mlauncher.CustomTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/banner"
+    android:layout_width="165dp" android:layout_height="96dp"
+    android:background="@drawable/selector2">
+
+</mlauncher.asad.com.mlauncher.CustomTextView>

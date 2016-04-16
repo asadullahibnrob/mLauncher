@@ -2,7 +2,6 @@ package mlauncher.asad.com.mlauncher;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
 /**
@@ -16,12 +15,13 @@ public class AppInfo {
     private String packageName;
     private boolean isCustomIcon;
     private ActivityInfo activityInfo;
+    private int iCONrESOURCE;
 
     public AppInfo(){       };
 
 
 
-    public AppInfo(String packageName, Drawable icon, Intent intent, CharSequence title,Boolean isCustomIcon, ActivityInfo info) {
+    public AppInfo(String packageName, Drawable icon, Intent intent, CharSequence title,Boolean isCustomIcon, ActivityInfo info, int iconResource) {
         super();
         this.packageName = packageName;
         this.icon = icon;
@@ -29,6 +29,7 @@ public class AppInfo {
         this.title = title;
         this.isCustomIcon = isCustomIcon;
         this.activityInfo = info;
+        this.iCONrESOURCE = iconResource;
 
     }
 
@@ -87,5 +88,14 @@ public class AppInfo {
     public void setActivityInfo(ActivityInfo activityInfo) {
         this.activityInfo = activityInfo;
     }
+
+    public int getiCONrESOURCE() {
+        return iCONrESOURCE;
+    }
+
+    public void setiCONrESOURCE(int iCONrESOURCE) {
+        this.iCONrESOURCE = iCONrESOURCE;
+    }
+
 
 }
